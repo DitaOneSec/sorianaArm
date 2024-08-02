@@ -1,0 +1,246 @@
+name: Azure ARM
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout code
+      - uses: actions/checkout@v3
+
+      # Log into Azure
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Deploy ARM template
+      - name: Run ARM deploy
+        uses: azure/arm-deploy@v1
+        with:
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+          resourceGroupName: rg-dev-migration-scus
+          scope: resourcegroup
+          template: ./template
+          parameters: |
+            {
+              "enterpriseScaleCompanyPrefix": {
+                "value": "Soriana"
+              },
+              "singlePlatformSubscriptionId": {
+                "value": "6fd2da6d-e221-45a1-8f09-7f7375b6be44"
+              },
+              "telemetryOptOut": {
+                "value": "Yes"
+              },
+              "enableLogAnalytics": {
+                "value": "Yes"
+              },
+              "retentionInDays": {
+                "value": "30"
+              },
+              "managementSubscriptionId": {
+                "value": "a219a903-c314-432f-b8e6-a3a55abde125"
+              },
+              "enableChangeTracking": {
+                "value": "Yes"
+              },
+              "enableUpdateMgmt": {
+                "value": "Yes"
+              },
+              "enableVmInsights": {
+                "value": "Yes"
+              },
+              "enableAsc": {
+                "value": "Yes"
+              },
+              "emailContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAsc": {
+                "value": "Administrator@devsivale.onmicrosoft.com"
+              },
+              "enableAscForServers": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForServersVulnerabilityAssessments": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForOssDb": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForCosmosDbs": {
+                "value": "Disabled"
+              },
+              "enableAscForAppServices": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForStorage": {
+                "value": "Disabled"
+              },
+              "enableAscForSql": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForSqlOnVm": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForKeyVault": {
+                "value": "Disabled"
+              },
+              "enableAscForArm": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForApis": {
+                "value": "Disabled"
+              },
+              "enableAscForCspm": {
+                "value": "DeployIfNotExists"
+              },
+              "enableAscForContainers": {
+                "value": "Disabled"
+              },
+              "enableMDEndpoints": {
+                "value": "DeployIfNotExists"
+              },
+              "enableSecuritySolution": {
+                "value": "Yes"
+              },
+              "enableMonitorBaselines": {
+                "value": "Yes"
+              },
+              "enableMonitorConnectivity": {
+                "value": "Yes"
+              },
+              "enableMonitorIdentity": {
+                "value": "Yes"
+              },
+              "enableMonitorManagement": {
+                "value": "Yes"
+              },
+              "enableMonitorLandingZones": {
+                "value": "Yes"
+              },
+              "monitorAlertsResourceGroup": {
+                "value": "rg-amba-monitoring-001"
+              },
+              "emailContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAGContactAG": {
+                "value": "Administrator@devsivale.onmicrosoft.com"
+              },
+              "connectivitySubscriptionId": {
+                "value": "a219a903-c314-432f-b8e6-a3a55abde125"
+              },
+              "addressPrefix": {
+                "value": "/16"
+              },
+              "connectivityLocation": {
+                "value": "[deployment().location]"
+              },
+              "enableDdoS": {
+                "value": "No"
+              },
+              "enablePrivateDnsZones": {
+                "value": "No"
+              },
+              "privateDnsZonesToDeploy": {
+                "value": []
+              },
+              "enableVpnGw": {
+                "value": "No"
+              },
+              "enableVpnActiveActive": {
+                "value": "No"
+              },
+              "gwRegionalOrAz": {
+                "value": "regional"
+              },
+              "gwRegionalSku": {
+                "value": "Standard"
+              },
+              "gwAzSku": {
+                "value": "Standard"
+              },
+              "vpnGateWayScaleUnit": {
+                "value": "1"
+              },
+              "subnetMaskForGw": {
+                "value": "255.255.255.0"
+              },
+              "enableErGw": {
+                "value": "No"
+              },
+              "erAzSku": {
+                "value": "Standard"
+              },
+              "erRegionalSku": {
+                "value": "Standard"
+              },
+              "erRegionalOrAz": {
+                "value": "regional"
+              },
+              "expressRouteScaleUnit": {
+                "value": "1"
+              },
+              "enableHub": {
+                "value": "No"
+              },
+              "enableAzFw": {
+                "value": "No"
+              },
+              "enableAzFwDnsProxy": {
+                "value": "No"
+              },
+              "firewallSku": {
+                "value": "Standard"
+              },
+              "firewallZones": {
+                "value": []
+              },
+              "subnetMaskForAzFw": {
+                "value": "255.255.255.0"
+              },
+              "subnetMaskForAzFwMgmt": {
+                "value": "255.255.255.0"
+              },
+              "enablevWANRoutingIntent": {
+                "value": "No"
+              },
+              "internetTrafficRoutingPolicy": {
+                "value": "InternetOnly"
+              },
+              "privateTrafficRoutingPolicy": {
+                "value": "PrivateOnly"
+              },
+              "vWANHubRoutingPreference": {
+                "value": "ExpressRoute"
+              },
+              "vWANHubCapacity": {
+                "value": "2"
+              },
+              "addressPrefixSecondary": {
+                "value": "10.0.0.0/16"
+              },
+              "connectivityLocationSecondary": {
+                "value": "[deployment().location]"
+              },
+              "enablePrivateDnsZonesSecondary": {
+                "value": "No"
+              },
+              "privateDnsZonesToDeploySecondary": {
+                "value": []
+              },
+              "enableVpnGwSecondary": {
+                "value": "No"
+              },
+              "enableVpnActiveActiveSecondary": {
+                "value": "No"
+              },
+              "gwRegionalOrAzSecondary": {
+                "value": "regional"
+              },
+              "gwRegionalSkuSecondary": {
+                "value": "Standard"
+              },
+              "gwAzSkuSecondary": {
+                "value": "Standard"
+              }
+            }
+
+      # Output containerName variable from template
+      - run: echo ${{ steps.deploy.outputs.containerName }}
